@@ -1,16 +1,16 @@
 import hexToRgba from './hex-to-rgba'
 import { useForm, useFormWithValidation } from './validation'
-import { useTags } from './use-tags'
-import useRecipes from './use-recipes'
-import useRecipe from './use-recipe'
+import { useCategory } from './use-category'
+import useNotes from './use-notes'
+import useNote from './use-note'
 import useSubscriptions from './use-subscriptions'
 
 export {
   hexToRgba,
   useForm,
   useFormWithValidation,
-  useTags,
-  useRecipes,
-  useRecipe,
+  useCategory,
+  useNotes,
+  useNote,
   useSubscriptions
 }

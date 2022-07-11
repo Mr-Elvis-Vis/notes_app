@@ -7,37 +7,37 @@ import MetaTags from 'react-meta-tags'
 
 const Favorites = ({ updateOrders }) => {
   const {
-    recipes,
-    setRecipes,
-    recipesCount,
-    setRecipesCount,
-    recipesPage,
-    setRecipesPage,
-    tagsValue,
-    handleTagsChange,
-    setTagsValue,
+    notes,
+    setNotes,
+    notesCount,
+    setNotesCount,
+    notesPage,
+    setNotesPage,
+    categoryValue,
+    handleCategoryChange,
+    setCategoryValue,
     handleLike,
-    handleAddToCart
-  } = useRecipes()
+  } = useNotes()
   
-  const getRecipes = ({ page = 1, tags }) => {
+  const getNotes= ({ page = 1, category }) => {
     api
-      .getRecipes({ page, is_favorited: Number(true), tags })
+      .getNotes({ page, is_favorited: Number(true), category })
       .then(res => {
         const { results, count } = res
-        setRecipes(results)
-        setRecipesCount(count)
+        setNotes(results)
+        setNotesCount(count)
       })
   }
 
   useEffect(_ => {
-    getRecipes({ page: recipesPage, tags: tagsValue })
-  }, [recipesPage, tagsValue])
+    getNotes({ page: notesPage, category: categoryValue })
+  }, [notesPage, categoryValue])
 
   useEffect(_ => {
-    api.getTags()
-      .then(tags => {
-        setTagsValue(tags.map(tag => ({ ...tag, value: true })))
+    api.getCategory()
+      .then(category => {
+        setCategoryValue(category.map(category => ({ ...category, value: true
+        })))
       })
   }, [])
 
@@ -46,33 +46,32 @@ const Favorites = ({ updateOrders }) => {
     <Container>
       <MetaTags>
         <title>Избранное</title>
-        <meta name="description" content="Продуктовый помощник - Избранное" />
+        <meta name="description" content="Ваши заметки - Избранное" />
         <meta property="og:title" content="Избранное" />
       </MetaTags>
       <div className={styles.title}>
         <Title title='Избранное' />
         <CheckboxGroup
-          values={tagsValue}
+          values={categoryValue}
           handleChange={value => {
-            setRecipesPage(1)
-            handleTagsChange(value)
+            setNotesPage(1)
+            handleCategoryChange(value)
           }}
         />
       </div>
       <CardList>
-        {recipes.map(card => <Card
+        {notes.map(card => <Card
           {...card}
           key={card.id}
           updateOrders={updateOrders}
           handleLike={handleLike}
-          handleAddToCart={handleAddToCart}
         />)}
       </CardList>
       <Pagination
-        count={recipesCount}
+        count={notesCount}
         limit={6}
-        page={recipesPage}
-        onPageChange={page => setRecipesPage(page)}
+        page={notesPage}
+        onPageChange={page => setNotesPage(page)}
       />
     </Container>
   </Main>

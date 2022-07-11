@@ -10,7 +10,7 @@ import {
 } from '../../components'
 import cn from 'classnames'
 import styles from './styles.module.css'
-import { useRecipes } from '../../utils/index.js'
+import { useNotes } from '../../utils/index.js'
 import { useEffect, useState, useContext } from 'react'
 import api from '../../api'
 import { useParams, useHistory } from 'react-router-dom'
@@ -19,31 +19,30 @@ import MetaTags from 'react-meta-tags'
 
 const UserPage = ({ updateOrders }) => {
   const {
-    recipes,
-    setRecipes,
-    recipesCount,
-    setRecipesCount,
-    recipesPage,
-    setRecipesPage,
-    tagsValue,
-    setTagsValue,
-    handleTagsChange,
-    handleLike,
-    handleAddToCart
-  } = useRecipes()
+    notes,
+    setNotes,
+   notesCount,
+    setNotesCount,
+    notesPage,
+    setNotesPage,
+    categoryValue,
+    setCategoryValue,
+    handleCategoryChange,
+    handleLike
+  } = useNotes()
   const { id } = useParams()
   const [ user, setUser ] = useState(null)
   const [ subscribed, setSubscribed ] = useState(false)
   const history = useHistory()
   const userContext = useContext(UserContext)
 
-  const getRecipes = ({ page = 1, tags }) => {
+  const getNotes = ({ page = 1, category }) => {
     api
-      .getRecipes({ page, author: id, tags })
+      .getNotes({ page, author: id, category })
         .then(res => {
           const { results, count } = res
-          setRecipes(results)
-          setRecipesCount(count)
+          setNotes(results)
+          setNotesCount(count)
         })
   }
 
@@ -54,23 +53,23 @@ const UserPage = ({ updateOrders }) => {
         setSubscribed(res.is_subscribed)
       })
       .catch(err => {
-        history.push('/recipes')
+        history.push('/notes')
       })
   }
 
   useEffect(_ => {
     if (!user) { return }
-    getRecipes({ page: recipesPage, tags: tagsValue, author: user.id })
-  }, [ recipesPage, tagsValue, user ])
+    getNotes({ page: notesPage, category: categoryValue, author: user.id })
+  }, [ notesPage, categoryValue, user ])
 
   useEffect(_ => {
     getUser()
   }, [])
 
   useEffect(_ => {
-    api.getTags()
-      .then(tags => {
-        setTagsValue(tags.map(tag => ({ ...tag, value: true })))
+    api.getCategory()
+      .then(category => {
+        setCategoryValue(category.map(category => ({ ...category, value: true })))
       })
   }, [])
 
@@ -79,7 +78,7 @@ const UserPage = ({ updateOrders }) => {
     <Container className={styles.container}>
       <MetaTags>
         <title>{user ? `${user.first_name} ${user.last_name}` : 'Страница пользователя'}</title>
-        <meta name="description" content={user ? `Продуктовый помощник - ${user.first_name} ${user.last_name}` : 'Продуктовый помощник - Страница пользователя'} />
+        <meta name="description" content={user ? `Ваши заметки  - ${user.first_name} ${user.last_name}` : 'Ваши заметки  - Страница пользователя'} />
         <meta property="og:title" content={user ? `${user.first_name} ${user.last_name}` : 'Страница пользователя'} />
       </MetaTags>
       <div className={styles.title}>
@@ -90,10 +89,10 @@ const UserPage = ({ updateOrders }) => {
           title={user ? `${user.first_name} ${user.last_name}` : ''}
         />
         <CheckboxGroup
-          values={tagsValue}
+          values={categoryValue}
           handleChange={value => {
-            setRecipesPage(1)
-            handleTagsChange(value)
+            setNotesPage(1)
+            handleCategoryChange(value)
           }}
         />
       </div>
@@ -117,14 +116,13 @@ const UserPage = ({ updateOrders }) => {
           key={card.id}
           updateOrders={updateOrders}
           handleLike={handleLike}
-          handleAddToCart={handleAddToCart}
         />)}
       </CardList>
       <Pagination
-        count={recipesCount}
+        count={notesCount}
         limit={6}
-        page={recipesPage}
-        onPageChange={page => setRecipesPage(page)}
+        page={notesPage}
+        onPageChange={page => setNotesPage(page)}
       />
     </Container>
   </Main>

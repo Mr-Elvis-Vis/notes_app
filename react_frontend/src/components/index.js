@@ -13,18 +13,15 @@ import ProtectedRoute from './protected-route'
 import Input from './input'
 import AccountMenu from './account-menu'
 import Nav from './nav'
-import Tag from './tag'
-import TagsContainer from './tags-container'
+import Category from './tag'
+import CategoryContainer from './tags-container'
 import Textarea from './textarea'
 import Checkbox from './checkbox'
 import CheckboxGroup from './checkbox-group'
 import Pagination from './pagination'
-import Purchase from './purchase'
-import PurchaseList from './purchase-list'
 import Subscription from './subscription'
 import SubscriptionList from './subscription-list'
 import FileInput from './file-input'
-import IngredientsSearch from './ingredients-search'
 
 export {
   Header,
@@ -42,16 +39,13 @@ export {
   Input,
   AccountMenu,
   Nav,
-  Tag,
-  TagsContainer,
+  Category,
+  CategoryContainer,
   Textarea,
   Checkbox,
   CheckboxGroup,
   Pagination,
-  Purchase,
-  PurchaseList,
   Subscription,
   SubscriptionList,
-  FileInput,
-  IngredientsSearch
+  FileInput
 }

@@ -2,11 +2,10 @@ import Main from './main'
 import SignIn from './signin'
 import SignUp from './signup'
 import SingleCard from './single-card'
-import RecipeEdit from './recipe-edit'
-import Cart from './cart'
+import NoteEdit from './recipe-edit'
 import Favorites from './favorites'
 import Subscriptions from './subscriptions'
-import RecipeCreate from './recipe-create'
+import NoteCreate from './note-create'
 import User from './user'
 import ChangePassword from './change-password'
 
@@ -15,11 +14,10 @@ export {
   SignIn,
   SingleCard,
   SignUp,
-  RecipeEdit,
-  Cart,
+  NoteEdit,
   Favorites,
   Subscriptions,
-  RecipeCreate,
+  NoteCreate,
   User,
   ChangePassword
 }

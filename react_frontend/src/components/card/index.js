@@ -8,31 +8,25 @@ const Card = ({
   id,
   image,
   is_favorited,
-  is_in_shopping_cart,
-  tags,
-  cooking_time,
+  category,
   author = {},
   handleLike,
-  handleAddToCart,
   updateOrders
 }) => {
   const authContext = useContext(AuthContext)
   return <div className={styles.card}>
       <LinkComponent
         className={styles.card__title}
-        href={`/recipes/${id}`}
+        href={`/notes/${id}`}
         title={<div className={styles.card__image} style={{ backgroundImage: `url(${ image })` }} />}
       />
       <div className={styles.card__body}>
         <LinkComponent
           className={styles.card__title}
-          href={`/recipes/${id}`}
+          href={`/notes/${id}`}
           title={name}
         />
-        <TagsContainer tags={tags} />
-        <div className={styles.card__time}>
-          <Icons.ClockIcon /> {cooking_time} мин.
-        </div>
+        <CategoryContainer category={category} />
         <div className={styles.card__author}>
           <Icons.UserIcon /> <LinkComponent
             href={`/user/${author.id}`}
@@ -43,21 +37,6 @@ const Card = ({
       </div>
       
       <div className={styles.card__footer}>
-          {authContext && <Button
-            className={styles.card__add}
-            modifier={is_in_shopping_cart ? 'style_light' : 'style_light-blue'}
-            clickHandler={_ => {
-              handleAddToCart({
-                id,
-                toAdd: Number(!is_in_shopping_cart),
-                callback: updateOrders
-              })
-            }}
-            disabled={!authContext}
-          >
-            {is_in_shopping_cart ? <><Icons.DoneIcon />Рецепт добавлен</> : <><Icons.PlusIcon fill='#4A61DD' /> Добавить в покупки</>}
-          </Button>}
-          
           {authContext && <Button
             modifier='style_none'
             clickHandler={_ => {

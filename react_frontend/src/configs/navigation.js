@@ -1,23 +1,19 @@
 export default [
   {
-    title: 'Рецепты',
-    href: '/recipes',
-    auth: false
-  },{
-    title: 'Мои подписки',
-    href: '/subscriptions',
+    title: 'Заметки',
+    href: '/notes',
     auth: true
   },{
-    title: 'Создать рецепт',
-    href: '/recipes/create',
+    title: 'Общие заметки',
+    href: '/sharing_list',
     auth: true
   },{
-    title: 'Избранное',
+    title: 'Создать заметку',
+    href: '/notes/create',
+    auth: true
+  },{
+    title: 'Избранные заметки',
     href: '/favorites',
-    auth: true
-  }, {
-    title: 'Список покупок',
-    href: '/cart',
     auth: true
   }
 ]

@@ -1,44 +1,44 @@
 import { Card, Title, Pagination, CardList, Container, Main, CheckboxGroup  } from '../../components'
 import styles from './styles.module.css'
-import { useRecipes } from '../../utils/index.js'
+import { useNotes } from '../../utils/index.js'
 import { useEffect } from 'react'
 import api from '../../api'
 import MetaTags from 'react-meta-tags'
 
 const HomePage = ({ updateOrders }) => {
   const {
-    recipes,
-    setRecipes,
-    recipesCount,
-    setRecipesCount,
-    recipesPage,
-    setRecipesPage,
-    tagsValue,
-    setTagsValue,
-    handleTagsChange,
-    handleLike,
-    handleAddToCart
-  } = useRecipes()
+    notes,
+    setNotes,
+    notesCount,
+    setNotesCount,
+    notesPage,
+    setNotesPage,
+    categoryValue,
+    setCategoryValue,
+    handleCategoryChange,
+    handleLike
+  } = useNotes()
 
 
-  const getRecipes = ({ page = 1, tags }) => {
+  const getNotes = ({ page = 1, category }) => {
     api
-      .getRecipes({ page, tags })
+      .getNotes({ page, category })
       .then(res => {
         const { results, count } = res
-        setRecipes(results)
-        setRecipesCount(count)
+        setNotes(results)
+        setNotesCount(count)
       })
   }
 
   useEffect(_ => {
-    getRecipes({ page: recipesPage, tags: tagsValue })
-  }, [recipesPage, tagsValue])
+    getNotes({ page: notesPage, category: categoryValue })
+  }, [notesPage, categoryValue])
 
   useEffect(_ => {
-    api.getTags()
-      .then(tags => {
-        setTagsValue(tags.map(tag => ({ ...tag, value: true })))
+    api.getCategory()
+      .then(category => {
+        setCategoryValue(category.map(category => ({ ...category, value: true
+        })))
       })
   }, [])
 
@@ -46,34 +46,33 @@ const HomePage = ({ updateOrders }) => {
   return <Main>
     <Container>
       <MetaTags>
-        <title>Рецепты</title>
-        <meta name="description" content="Продуктовый помощник - Рецепты" />
-        <meta property="og:title" content="Рецепты" />
+        <title>Заметки</title>
+        <meta name="description" content="Ваши заметки - Заметки" />
+        <meta property="og:title" content="Заметки" />
       </MetaTags>
       <div className={styles.title}>
-        <Title title='Рецепты' />
+        <Title title='Заметки' />
         <CheckboxGroup
           values={tagsValue}
           handleChange={value => {
-            setRecipesPage(1)
-            handleTagsChange(value)
+            setNotesPage(1)
+            handleCategoryChange(value)
           }}
         />
       </div>
       <CardList>
-        {recipes.map(card => <Card
+        {notes.map(card => <Card
           {...card}
           key={card.id}
           updateOrders={updateOrders}
           handleLike={handleLike}
-          handleAddToCart={handleAddToCart}
         />)}
       </CardList>
       <Pagination
-        count={recipesCount}
+        count={notesCount}
         limit={6}
-        page={recipesPage}
-        onPageChange={page => setRecipesPage(page)}
+        page={notesPage}
+        onPageChange={page => setNotesPage(page)}
       />
     </Container>
   </Main>
