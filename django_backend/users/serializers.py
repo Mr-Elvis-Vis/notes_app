@@ -37,5 +37,5 @@ class CustomUserSerializer(UserSerializer):
     def get_is_shared(self, obj):
         user = self.context.get('request').user
         return Sharing.objects.filter(
-            author=obj, user=user
+            recipient=user, user=obj
         ).exists()

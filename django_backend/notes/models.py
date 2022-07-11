@@ -1,7 +1,6 @@
 from colorfield.fields import ColorField
 from django.contrib.auth import get_user_model
-from django.core.validators import (MaxValueValidator, MinValueValidator,
-                                    validate_slug)
+from django.core.validators import validate_slug
 from django.db import models
 
 

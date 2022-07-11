@@ -4,6 +4,8 @@ from django.core.management.base import BaseCommand
 from dotenv import load_dotenv
 from django_backend.settings import EMAIL_PROJECT
 
+load_dotenv()
+
 User = get_user_model()
 
 
